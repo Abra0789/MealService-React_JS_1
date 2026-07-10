@@ -115,13 +115,13 @@ function App() {
         />
 
         <Route
-          path="orders"
-          element={
-            <ProtectedRoute>
-              <MyOrders />
-            </ProtectedRoute>
-          }
-        />
+  path="my-orders"
+  element={
+    <ProtectedRoute>
+      <MyOrders />
+    </ProtectedRoute>
+  }
+/>
 
         <Route
           path="login"
@@ -143,6 +143,8 @@ function App() {
         path="*"
         element={<NotFound />}
       />
+
+      
     </Routes>
   );
 }

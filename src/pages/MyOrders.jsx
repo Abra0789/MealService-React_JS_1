@@ -1,20 +1,46 @@
+import OrderCard from "../components/OrderCard";
+import orders from "../data/orders";
+
 const MyOrders = () => {
   return (
-    <section className="max-w-6xl mx-auto px-6 py-16">
+    <section className="min-h-screen bg-orange-50 py-16">
 
-      <h1 className="text-4xl font-bold">
-        My Orders
-      </h1>
+      <div className="mx-auto max-w-6xl px-5">
 
-      <div className="mt-10 rounded-3xl bg-white p-8 shadow-xl">
+        <h1 className="mb-10 text-center text-5xl font-bold">
+          My Orders
+        </h1>
 
-        <h2 className="text-2xl font-semibold">
-          No Orders Yet
-        </h2>
+        {orders.length > 0 ? (
 
-        <p className="mt-3 text-gray-500">
-          Your previous orders will appear here.
-        </p>
+          <div className="grid gap-8">
+
+            {orders.map((order) => (
+
+              <OrderCard
+                key={order.id}
+                order={order}
+              />
+
+            ))}
+
+          </div>
+
+        ) : (
+
+          <div className="rounded-3xl bg-white p-12 text-center shadow-lg">
+
+            <h2 className="text-3xl font-bold">
+              No Orders Yet
+            </h2>
+
+            <p className="mt-3 text-gray-500">
+              Your orders will appear here after checkout.
+            </p>
+
+          </div>
+
+        )}
 
       </div>
 
