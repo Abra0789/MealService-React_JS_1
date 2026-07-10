@@ -1,27 +1,36 @@
+// Firebase Core
 import { initializeApp } from "firebase/app";
 
+// Firebase Authentication
 import {
   getAuth,
   GoogleAuthProvider,
 } from "firebase/auth";
 
+// Firebase Firestore
 import { getFirestore } from "firebase/firestore";
 
+// Firebase Configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAXEqbIEH_wGIGvGRm7QipNJoUb__nunac",
-  authDomain: "mealservice-eb286.firebaseapp.com",
-  projectId: "mealservice-eb286",
-  storageBucket: "mealservice-eb286.firebasestorage.app",
-  messagingSenderId: "953119466091",
-  appId: "1:953119466091:web:5ebfd1643fe62fa62b072e",
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId:
+    import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
+// Services
 export const auth = getAuth(app);
 
 export const db = getFirestore(app);
 
-export const googleProvider = new GoogleAuthProvider();
+// Google Provider
+export const googleProvider =
+  new GoogleAuthProvider();
 
 export default app;
