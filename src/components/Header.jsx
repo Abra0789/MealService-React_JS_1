@@ -162,12 +162,12 @@ const handleLogout = async () => {
                 </NavLink>
 
                 <NavLink
-                  to="/orders"
-                  onClick={() => setOpen(false)}
-                  className="block px-4 py-3 hover:bg-orange-50"
-                >
-                  My Orders
-                </NavLink>
+  to="/my-orders"
+  onClick={() => setOpen(false)}
+  className="block px-4 py-3 hover:bg-orange-50"
+>
+  My Orders
+</NavLink>
 
                 <button
                   onClick={handleLogout}

@@ -12,7 +12,7 @@ const orderSlice = createSlice({
   reducers: {
 
     addOrder: (state, action) => {
-      state.orders.push(action.payload);
+      state.orders.unshift(action.payload);
     },
 
     clearOrders: (state) => {

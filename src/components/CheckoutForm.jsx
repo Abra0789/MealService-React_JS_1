@@ -1,19 +1,40 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+
 import { clearCart } from "../redux/slices/cartSlice";
+import { addOrder } from "../redux/slices/orderSlice";
 
 const CheckoutForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const { cartItems, totalAmount } = useSelector(
+    (state) => state.cart
+  );
+
   const handlePlaceOrder = (e) => {
     e.preventDefault();
 
-    alert("Order placed successfully!");
+    if (cartItems.length === 0) {
+      alert("Your cart is empty!");
+      return;
+    }
+
+    const order = {
+      id: Date.now(),
+      date: new Date().toLocaleDateString(),
+      status: "Pending",
+      items: cartItems,
+      total: totalAmount,
+    };
+
+    dispatch(addOrder(order));
 
     dispatch(clearCart());
 
-    navigate("/");
+    alert("Order placed successfully!");
+
+    navigate("/my-orders");
   };
 
   return (
