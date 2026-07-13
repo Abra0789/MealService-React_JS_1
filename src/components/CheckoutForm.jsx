@@ -1,8 +1,11 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+
 import { clearCart } from "../redux/slices/cartSlice";
-import { addOrder } from "../redux/slices/orderSlice";
+
+import { auth, db } from "../firebase/firebase";
 
 const CheckoutForm = () => {
   const dispatch = useDispatch();
@@ -12,7 +15,11 @@ const CheckoutForm = () => {
     (state) => state.cart
   );
 
-  const handlePlaceOrder = (e) => {
+  const { user } = useSelector(
+    (state) => state.auth
+  );
+
+  const handlePlaceOrder = async (e) => {
     e.preventDefault();
 
     if (cartItems.length === 0) {
@@ -20,21 +27,34 @@ const CheckoutForm = () => {
       return;
     }
 
-    const order = {
-      id: Date.now(),
-      date: new Date().toLocaleDateString(),
-      status: "Pending",
-      items: cartItems,
-      total: totalAmount,
-    };
+    try {
+      await addDoc(collection(db, "orders"), {
+        userId: auth.currentUser.uid,
 
-    dispatch(addOrder(order));
+        userName: user.fullName,
 
-    dispatch(clearCart());
+        email: user.email,
 
-    alert("Order placed successfully!");
+        items: cartItems,
 
-    navigate("/my-orders");
+        totalAmount,
+
+        status: "Pending",
+
+        createdAt: serverTimestamp(),
+      });
+
+      dispatch(clearCart());
+
+      alert("Order Placed Successfully!");
+
+      navigate("/my-orders");
+
+    } catch (error) {
+      console.log(error);
+
+      alert(error.message);
+    }
   };
 
   return (
