@@ -51,12 +51,15 @@ function App() {
               await getDoc(docRef);
 
             if (docSnap.exists()) {
-              dispatch(
-                login(docSnap.data())
-              );
-            } else {
-              dispatch(logout());
-            }
+  dispatch(
+    login({
+      uid: currentUser.uid,
+      ...docSnap.data(),
+    })
+  );
+} else {
+  dispatch(logout());
+}
           } catch (error) {
             console.log(error);
 
