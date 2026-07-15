@@ -1,62 +1,111 @@
-@import 'tailwindcss';
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
 
-/* ===== Premium Glass Toast ===== */
+@import "tailwindcss";
+
+/* ==========================
+   Global
+========================== */
+
+:root {
+  --font-outfit: "Outfit", sans-serif;
+}
+
+html {
+  font-family: var(--font-outfit);
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #faf8f5;
+  color: #111827;
+  overflow-x: hidden;
+}
+
+::selection {
+  background: #ff6b35;
+  color: white;
+}
+
+/* ==========================
+   Lenis Smooth Scroll
+========================== */
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* ==========================
+   Premium Glass Toast
+========================== */
 
 .Toastify__toast {
   background: rgba(20, 20, 20, 0.45) !important;
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
 
-  border: 1px solid rgba(255,255,255,.12);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 
   border-radius: 18px;
 
   color: #fff;
 
   box-shadow:
-    0 10px 35px rgba(0,0,0,.35),
-    inset 0 1px 0 rgba(255,255,255,.15);
+    0 10px 35px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
 
   overflow: hidden;
 }
 
-.Toastify__toast-body{
-  font-size:15px;
-  font-weight:600;
+.Toastify__toast-body {
+  font-size: 15px;
+  font-weight: 600;
 }
 
-.Toastify__progress-bar{
-  height:4px;
+.Toastify__progress-bar {
+  height: 4px;
 }
 
-.Toastify__close-button{
-  color:white;
+.Toastify__close-button {
+  color: white;
 }
 
 /* Success */
 
-.Toastify__toast--success{
-  background: rgba(255,140,0,.20) !important;
-  border:1px solid rgba(255,166,0,.35);
+.Toastify__toast--success {
+  background: rgba(255, 140, 0, 0.2) !important;
+  border: 1px solid rgba(255, 166, 0, 0.35);
 }
 
 /* Error */
 
-.Toastify__toast--error{
-  background: rgba(255,0,80,.18) !important;
-  border:1px solid rgba(255,0,80,.35);
+.Toastify__toast--error {
+  background: rgba(255, 0, 80, 0.18) !important;
+  border: 1px solid rgba(255, 0, 81, 0.37);
 }
 
 /* Warning */
 
-.Toastify__toast--warning{
-  background: rgba(255,196,0,.18) !important;
-  border:1px solid rgba(255,196,0,.35);
+.Toastify__toast--warning {
+  background: rgba(255, 196, 0, 0.18) !important;
+  border: 1px solid rgba(255, 196, 0, 0.35);
 }
 
 /* Info */
 
-.Toastify__toast--info{
-  background: rgba(0,180,255,.18) !important;
-  border:1px solid rgba(0,180,255,.35);
+.Toastify__toast--info {
+  background: rgba(0, 180, 255, 0.18) !important;
+  border: 1px solid rgba(0, 179, 255, 0.41);
 }
