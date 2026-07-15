@@ -5,6 +5,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 // ============================
 // Firebase
@@ -74,7 +75,7 @@ const LoginForm = () => {
         await getDoc(docRef);
 
       if (!docSnap.exists()) {
-        alert("User data not found.");
+        toast.error("User data not found.");
         return;
       }
 
@@ -90,7 +91,10 @@ const LoginForm = () => {
         })
       );
 
-      alert("Login Successful");
+      toast.success("Login Successful!");
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
 
       navigate("/");
     } catch (error) {
@@ -98,19 +102,19 @@ const LoginForm = () => {
         error.code ===
         "auth/invalid-credential"
       ) {
-        alert("Invalid email or password.");
+        toast.error("Invalid email or password.");
       } else if (
         error.code ===
         "auth/user-not-found"
       ) {
-        alert("User not found.");
+        toast.error("User not found.");
       } else if (
         error.code ===
         "auth/wrong-password"
       ) {
-        alert("Wrong password.");
+        toast.error("Wrong password.");
       } else {
-        alert(error.message);
+        toast.error("An error occurred."  );
       }
     } finally {
       setLoading(false);
@@ -152,7 +156,7 @@ const LoginForm = () => {
         });
       }
 
-      // Firestore থেকে User Data নেওয়া
+      // Firestore user data retrieval after Google login 
       const updatedUserSnap =
         await getDoc(userRef);
 
@@ -170,11 +174,12 @@ const LoginForm = () => {
         })
       );
 
-      alert("Google Login Successful");
-
-      navigate("/");
+      toast.success("Google Login Successful!");
+      setTimeout(() => {
+        navigate("/");
+      }, 1000);
     } catch (error) {
-      alert(error.message);
+      toast.error("Google Login Failed");
     } finally {
       setLoading(false);
     }

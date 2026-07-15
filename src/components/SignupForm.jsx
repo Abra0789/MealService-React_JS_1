@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+
 
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
@@ -121,39 +123,21 @@ const SignupForm = () => {
       });
 
       setErrors({});
+      toast.success("Account created successfully!");
 
       navigate("/");
     } catch (error) {
-
-      if (
-        error.code ===
-        "auth/email-already-in-use"
-      ) {
-        alert(
-          "This email is already registered."
+      if (error.code === "auth/email-already-in-use") {
+        toast.error("Email is already in use.");
+      } else if (error.code === "auth/invalid-email") {
+        toast.error("Invalid email address.");
+      } else if (error.code === "auth/weak-password") {
+        toast.error(
+          "Password is too weak. Please choose a stronger password."
         );
+      } else {
+        toast.error("An error occurred.");
       }
-
-      else if (
-        error.code ===
-        "auth/invalid-email"
-      ) {
-        alert("Invalid email address.");
-      }
-
-      else if (
-        error.code ===
-        "auth/weak-password"
-      ) {
-        alert(
-          "Password should be at least 8 characters."
-        );
-      }
-
-      else {
-        alert(error.message);
-      }
-
     } finally {
       setLoading(false);
     }

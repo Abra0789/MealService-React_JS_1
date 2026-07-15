@@ -1,1 +1,62 @@
 @import 'tailwindcss';
+
+/* ===== Premium Glass Toast ===== */
+
+.Toastify__toast {
+  background: rgba(20, 20, 20, 0.45) !important;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255,255,255,.12);
+
+  border-radius: 18px;
+
+  color: #fff;
+
+  box-shadow:
+    0 10px 35px rgba(0,0,0,.35),
+    inset 0 1px 0 rgba(255,255,255,.15);
+
+  overflow: hidden;
+}
+
+.Toastify__toast-body{
+  font-size:15px;
+  font-weight:600;
+}
+
+.Toastify__progress-bar{
+  height:4px;
+}
+
+.Toastify__close-button{
+  color:white;
+}
+
+/* Success */
+
+.Toastify__toast--success{
+  background: rgba(255,140,0,.20) !important;
+  border:1px solid rgba(255,166,0,.35);
+}
+
+/* Error */
+
+.Toastify__toast--error{
+  background: rgba(255,0,80,.18) !important;
+  border:1px solid rgba(255,0,80,.35);
+}
+
+/* Warning */
+
+.Toastify__toast--warning{
+  background: rgba(255,196,0,.18) !important;
+  border:1px solid rgba(255,196,0,.35);
+}
+
+/* Info */
+
+.Toastify__toast--info{
+  background: rgba(0,180,255,.18) !important;
+  border:1px solid rgba(0,180,255,.35);
+}

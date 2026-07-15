@@ -7,6 +7,8 @@ import { clearCart } from "../redux/slices/cartSlice";
 
 import { auth, db } from "../firebase/firebase";
 
+import { toast } from "react-toastify";
+
 const CheckoutForm = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -23,7 +25,7 @@ const CheckoutForm = () => {
     e.preventDefault();
 
     if (cartItems.length === 0) {
-      alert("Your cart is empty!");
+      toast.warning("Your cart is empty!");
       return;
     }
 
@@ -46,14 +48,14 @@ const CheckoutForm = () => {
 
       dispatch(clearCart());
 
-      alert("Order Placed Successfully!");
+      toast.success("Order Placed Successfully!");
 
       navigate("/my-orders");
 
     } catch (error) {
       console.log(error);
 
-      alert(error.message);
+      toast.error("Failed To Place Order");
     }
   };
 

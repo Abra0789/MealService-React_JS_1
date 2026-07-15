@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
 import { useDispatch } from "react-redux";
 
+
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 
@@ -12,6 +13,8 @@ import {
   logout,
   setLoading,
 } from "./redux/slices/authSlice";
+
+import { ToastContainer } from "react-toastify";
 
 // Layout
 import RootLayout from "./layouts/RootLayout";
@@ -77,78 +80,101 @@ function App() {
   }, [dispatch]);
 
   return (
-    <Routes>
-      <Route element={<RootLayout />}>
-        <Route
-          index
-          element={<Home />}
-        />
-
-        <Route
-          path="meals"
-          element={<Meals />}
-        />
-
-        <Route
-          path="meals/:id"
-          element={<MealDetails />}
-        />
-
-        <Route
-          path="cart"
-          element={<Cart />}
-        />
-
-        <Route
-          path="checkout"
-          element={
-            <ProtectedRoute>
-              <Checkout />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-          path="profile"
-          element={
-            <ProtectedRoute>
-              <Profile />
-            </ProtectedRoute>
-          }
-        />
-
-        <Route
-  path="my-orders"
-  element={
-    <ProtectedRoute>
-      <MyOrders />
-    </ProtectedRoute>
-  }
-/>
-
-        <Route
-          path="login"
-          element={<Login />}
-        />
-
-        <Route
-          path="signup"
-          element={<Signup />}
-        />
-
-        <Route
-          path="forgot-password"
-          element={<ForgotPassword />}
-        />
-      </Route>
-
-      <Route
-        path="*"
-        element={<NotFound />}
-      />
-
+    <>
+      <Routes>
+        <Route element={<RootLayout />}>
       
-    </Routes>
+          <Route
+            index
+            element={<Home />}
+          />
+
+          <Route
+            path="meals"
+            element={<Meals />}
+          />
+
+          <Route
+            path="meals/:id"
+            element={<MealDetails />}
+          />
+
+          <Route
+            path="cart"
+            element={<Cart />}
+          />
+
+          <Route
+            path="checkout"
+            element={
+              <ProtectedRoute>
+                <Checkout />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="my-orders"
+            element={
+              <ProtectedRoute>
+                <MyOrders />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="login"
+            element={<Login />}
+          />
+
+          <Route
+            path="signup"
+            element={<Signup />}
+          />
+
+          <Route
+            path="forgot-password"
+            element={<ForgotPassword />}
+          />
+        </Route>
+
+        <Route
+          path="*"
+          element={<NotFound />}
+        />
+      </Routes>
+
+      <ToastContainer
+          position="top-right"
+  autoClose={2500}
+  newestOnTop
+  closeOnClick
+  pauseOnHover
+  draggable
+  theme="dark"
+  stacked
+  limit={3}
+  toastStyle={{
+    background: "rgba(255,255,255,0.12)",
+    backdropFilter: "blur(18px)",
+    WebkitBackdropFilter: "blur(18px)",
+    border: "1px solid rgba(255,255,255,0.15)",
+    borderRadius: "18px",
+    color: "#fff",
+    boxShadow: "0 10px 40px rgba(0,0,0,.25)",
+          
+        }}
+      />
+    </>
   );
 }
 

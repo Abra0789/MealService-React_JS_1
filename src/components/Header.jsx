@@ -11,6 +11,8 @@ import { logout } from "../redux/slices/authSlice";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase/firebase";
 
+import { toast } from "react-toastify";
+
 const Header = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -31,12 +33,12 @@ const handleLogout = async () => {
 
     dispatch(logout());
 
-    alert("Logout Successful");
+    toast.success("Logout Successful!");
 
     navigate("/");
 
   } catch (error) {
-    alert(error.message);
+    toast.error("Error occurred while logging out.");
   }
 };
 
