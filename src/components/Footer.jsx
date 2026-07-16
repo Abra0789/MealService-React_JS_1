@@ -21,7 +21,7 @@ const Footer = () => {
       relative
       mt-20
       overflow-hidden
-      bg-gradient-to-br
+      bg-linear-to-br
       from-[#09090B]
       via-[#111827]
       to-[#020617]
@@ -37,7 +37,7 @@ const Footer = () => {
         left-1/2
         -translate-x-1/2
         w-[60%]
-        h-[2px]
+        h-0.5
         bg-orange-500
         shadow-[0_0_30px_#f97316]
       " />

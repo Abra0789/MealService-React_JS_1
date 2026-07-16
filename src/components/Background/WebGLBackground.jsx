@@ -9,6 +9,7 @@ import {
   Program,
 } from "ogl";
 
+
 import vertex from "./shaders/vertex.glsl";
 import fragment from "./shaders/fragment.glsl";
 
@@ -20,22 +21,26 @@ const WebGLBackground = () => {
 
 
 
-  useEffect(()=>{
+  useEffect(() => {
 
 
-    if(!containerRef.current) return;
+    if (!containerRef.current) return;
+
+
+
+    const isMobile = window.innerWidth < 768;
 
 
 
     const renderer = new Renderer({
 
-      alpha:true,
+      alpha: true,
 
-      antialias:true,
+      antialias: true,
 
-      dpr:Math.min(
+      dpr: Math.min(
         window.devicePixelRatio,
-        window.innerWidth < 768 ? 1 : 2
+        isMobile ? 1 : 1.5
       ),
 
     });
@@ -46,12 +51,33 @@ const WebGLBackground = () => {
 
 
 
-    gl.canvas.style.position="fixed";
-    gl.canvas.style.top="0";
-    gl.canvas.style.left="0";
-    gl.canvas.style.width="100%";
-    gl.canvas.style.height="100%";
-    gl.canvas.style.display="block";
+    if (!gl) {
+
+      console.log(
+        "WebGL not supported"
+      );
+
+      return;
+
+    }
+
+
+
+
+    /* Canvas Style */
+
+    gl.canvas.style.position = "absolute";
+
+    gl.canvas.style.top = "0";
+
+    gl.canvas.style.left = "0";
+
+    gl.canvas.style.width = "100%";
+
+    gl.canvas.style.height = "100%";
+
+    gl.canvas.style.display = "block";
+
 
 
 
@@ -62,28 +88,24 @@ const WebGLBackground = () => {
 
 
 
+
     renderer.setSize(
+
       window.innerWidth,
+
       window.innerHeight
+
     );
-
-
-
-
-    gl.clearColor(
-      0.98,
-      0.97,
-      0.95,
-      1
-    );
-
 
 
 
 
     const camera = new Camera(gl);
 
-    camera.position.z=1;
+
+    camera.position.z = 1;
+
+
 
 
 
@@ -92,9 +114,13 @@ const WebGLBackground = () => {
 
 
 
-    const geometry = new Plane(gl,{
-      width:2,
-      height:2,
+
+    const geometry = new Plane(gl, {
+
+      width: 2,
+
+      height: 2,
+
     });
 
 
@@ -103,17 +129,24 @@ const WebGLBackground = () => {
 
 
 
-    // Smooth mouse
+    // Smooth Cursor
 
-    let mouse=[
+    let mouse = [
+
       0.5,
+
       0.5
+
     ];
 
 
-    let targetMouse=[
+
+    let targetMouse = [
+
       0.5,
+
       0.5
+
     ];
 
 
@@ -125,51 +158,74 @@ const WebGLBackground = () => {
     const uniforms = {
 
 
-
       uTime:{
+
         value:0,
+
       },
 
 
 
       uResolution:{
+
         value:[
+
           window.innerWidth,
+
           window.innerHeight
+
         ],
+
       },
 
 
 
       uMouse:{
+
         value:[
+
           0.5,
+
           0.5
+
         ],
+
       },
 
 
 
-      // Current color
+      // Current Color
 
       uScrollColor:{
+
         value:[
+
           1.0,
+
           0.43,
+
           0.10
+
         ],
+
       },
 
 
 
-      // Target color
+      // Target Color
 
       uTargetColor:{
+
         value:[
+
           1.0,
+
           0.43,
+
           0.10
+
         ],
+
       },
 
 
@@ -208,6 +264,7 @@ const WebGLBackground = () => {
 
 
 
+
     mesh.setParent(scene);
 
 
@@ -217,21 +274,61 @@ const WebGLBackground = () => {
 
 
 
+    // Mouse Move
 
-    // Mouse move
-
-    const handleMouseMove=(e)=>{
+    const handleMouseMove = (e)=>{
 
 
-      targetMouse=[
+      targetMouse = [
+
 
         e.clientX /
+
         window.innerWidth,
 
 
         1 -
+
         e.clientY /
+
         window.innerHeight
+
+
+      ];
+
+
+    };
+
+
+
+
+
+
+
+    // Touch Move (Mobile)
+
+    const handleTouchMove = (e)=>{
+
+
+      if(!e.touches[0]) return;
+
+
+
+      targetMouse=[
+
+
+        e.touches[0].clientX /
+
+        window.innerWidth,
+
+
+
+        1 -
+
+        e.touches[0].clientY /
+
+        window.innerHeight
+
 
       ];
 
@@ -245,10 +342,9 @@ const WebGLBackground = () => {
 
 
 
-
     // Resize
 
-    const handleResize=()=>{
+    const handleResize = ()=>{
 
 
       renderer.setSize(
@@ -263,14 +359,16 @@ const WebGLBackground = () => {
 
       uniforms.uResolution.value=[
 
+
         window.innerWidth,
 
+
         window.innerHeight
+
 
       ];
 
 
-
     };
 
 
@@ -281,69 +379,53 @@ const WebGLBackground = () => {
 
 
 
-    // Scroll color
+// Scroll Color
+const handleScroll = () => {
 
-    const handleScroll=()=>{
+  const maxScroll =
+    document.body.scrollHeight -
+    window.innerHeight;
 
+  if (maxScroll <= 0) return;
 
-      const scroll =
+  const scroll =
+    window.scrollY /
+    maxScroll;
 
-      window.scrollY /
-      (
-        document.body.scrollHeight -
-        window.innerHeight
-      );
+  // Warm Orange
+  if (scroll < 0.33) {
 
+    uniforms.uTargetColor.value = [
+      1.00,
+      0.55,
+      0.22
+    ];
 
+  }
 
+  // Soft Lavender
+  else if (scroll < 0.66) {
 
-      if(scroll < 0.33){
+    uniforms.uTargetColor.value = [
+      0.72,
+      0.60,
+      1.00
+    ];
 
+  }
 
-        uniforms.uTargetColor.value=[
+  // Cyan Blue
+  else {
 
-          1.0,
-          0.43,
-          0.10
+    uniforms.uTargetColor.value = [
+      0.35,
+      0.85,
+      1.00
+    ];
 
-        ];
+  }
 
-
-      }
-
-
-      else if(scroll < 0.66){
-
-
-        uniforms.uTargetColor.value=[
-
-          0.4,
-          0.7,
-          1.0
-
-        ];
-
-
-      }
-
-
-      else{
-
-
-        uniforms.uTargetColor.value=[
-
-          0.6,
-          1.0,
-          0.8
-
-        ];
-
-
-      }
-
-
-    };
-
+};
 
 
 
@@ -353,22 +435,47 @@ const WebGLBackground = () => {
 
 
     window.addEventListener(
+
       "mousemove",
+
       handleMouseMove
+
     );
 
 
 
     window.addEventListener(
+
+      "touchmove",
+
+      handleTouchMove,
+
+      {
+
+        passive:true
+
+      }
+
+    );
+
+
+
+    window.addEventListener(
+
       "resize",
+
       handleResize
+
     );
 
 
 
     window.addEventListener(
+
       "scroll",
+
       handleScroll
+
     );
 
 
@@ -385,45 +492,64 @@ const WebGLBackground = () => {
 
 
 
-    const animate=(time)=>{
+    const animate = (time)=>{
 
 
       animationId =
+
       requestAnimationFrame(
+
         animate
+
       );
 
 
 
+
       uniforms.uTime.value =
+
       time * 0.001;
 
 
 
 
 
-      // Cursor smooth trail
+
+
+
+      // Cursor Smooth Trail
 
       mouse[0] +=
+
       (
+
         targetMouse[0]
+
         -
+
         mouse[0]
+
       ) * 0.05;
 
 
 
       mouse[1] +=
+
       (
+
         targetMouse[1]
+
         -
+
         mouse[1]
+
       ) * 0.05;
 
 
 
-      uniforms.uMouse.value =
-      mouse;
+
+
+      uniforms.uMouse.value = mouse;
 
 
 
@@ -431,32 +557,31 @@ const WebGLBackground = () => {
 
 
 
-      // Liquid color morph
-
-      uniforms.uScrollColor.value[0] +=
-      (
-        uniforms.uTargetColor.value[0]
-        -
-        uniforms.uScrollColor.value[0]
-      ) * 0.015;
 
 
-
-      uniforms.uScrollColor.value[1] +=
-      (
-        uniforms.uTargetColor.value[1]
-        -
-        uniforms.uScrollColor.value[1]
-      ) * 0.015;
+      // Smooth Color Morph
 
 
+      for(let i = 0; i < 3; i++){
 
-      uniforms.uScrollColor.value[2] +=
-      (
-        uniforms.uTargetColor.value[2]
-        -
-        uniforms.uScrollColor.value[2]
-      ) * 0.015;
+
+        uniforms.uScrollColor.value[i] +=
+
+
+        (
+
+          uniforms.uTargetColor.value[i]
+
+          -
+
+          uniforms.uScrollColor.value[i]
+
+        ) * 0.015;
+
+
+
+      }
+
 
 
 
@@ -479,6 +604,7 @@ const WebGLBackground = () => {
 
 
 
+
     animate(0);
 
 
@@ -489,52 +615,80 @@ const WebGLBackground = () => {
 
 
 
-    return()=>{
+    return ()=>{
 
 
       cancelAnimationFrame(
+
         animationId
+
       );
 
 
 
       window.removeEventListener(
+
         "mousemove",
+
         handleMouseMove
+
       );
 
 
 
       window.removeEventListener(
+
+        "touchmove",
+
+        handleTouchMove
+
+      );
+
+
+
+      window.removeEventListener(
+
         "resize",
+
         handleResize
+
       );
 
 
 
       window.removeEventListener(
+
         "scroll",
+
         handleScroll
+
       );
 
 
 
 
       if(
+
         containerRef.current &&
-        gl.canvas.parentNode === containerRef.current
+
+        gl.canvas.parentNode ===
+
+        containerRef.current
+
       ){
 
+
         containerRef.current.removeChild(
+
           gl.canvas
+
         );
+
 
       }
 
 
     };
-
-
 
 
 
@@ -545,7 +699,7 @@ const WebGLBackground = () => {
 
 
 
-  return(
+  return (
 
     <div
 
@@ -556,7 +710,6 @@ const WebGLBackground = () => {
     />
 
   );
-
 
 };
 

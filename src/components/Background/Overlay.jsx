@@ -3,87 +3,87 @@ const Overlay = () => {
     <div className="background-overlay">
 
       {/* Noise */}
-
       <div className="background-noise" />
 
-      {/* Grid */}
 
+      {/* Grid */}
       <div className="background-grid" />
 
-      {/* Top Glow */}
 
+      {/* Top Glow - Reduced Orange */}
       <div
         className="
-          absolute
-          left-1/2
-          -top-95
-          h-225
-          w-225
-          -translate-x-1/2
-          rounded-full
-          bg-orange-400/10
-          blur-[180px]
+        absolute
+        left-1/2
+        -top-24
+        h-60
+        w-60
+        -translate-x-1/2
+        rounded-full
+        bg-orange-400/5
+        blur-[100px]
         "
       />
+
 
       {/* Left Glow */}
-
       <div
         className="
-          absolute
-          -left-62.5
-          top-1/3
-          h-175
-          w-175
-          rounded-full
-          bg-orange-300/8
-          blur-[170px]
+        absolute
+        -left-24
+        top-1/3
+        h-55
+        w-55
+        rounded-full
+        bg-orange-300/10
+        blur-[120px]
         "
       />
+
 
       {/* Right Glow */}
-
       <div
         className="
-          absolute
-          -right-62.5
-          bottom-1/4
-          h-175
-          w-175
-          rounded-full
-          bg-orange-500/8
-          blur-[170px]
+        absolute
+        -right-24
+        bottom-1/4
+        h-55
+        w-55
+        rounded-full
+        bg-orange-500/10
+        blur-[120px]
         "
       />
+
 
       {/* Bottom Glow */}
-
       <div
         className="
-          absolute
-          -bottom-105
-          left-1/2
-          h-237.5
-          w-237.5
-          -translate-x-1/2
-          rounded-full
-          bg-orange-500/8
-          blur-[220px]
+        absolute
+        -bottom-28
+        left-1/2
+        h-75
+        w-75
+        -translate-x-1/2
+        rounded-full
+        bg-orange-500/10
+        blur-[150px]
         "
       />
 
-      {/* Vignette */}
 
+      {/* Vignette */}
       <div
         className="
-          absolute
-          inset-0
-          bg-[radial-gradient(circle_at_center,transparent_55%,rgba(0,0,0,.08)_100%)]
+        absolute
+        inset-0
+        bg-[radial-gradient(circle_at_center,transparent_55%,rgba(0,0,0,.08)_100%)]
         "
       />
 
     </div>
   );
 };
+
 
 export default Overlay;
