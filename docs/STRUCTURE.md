@@ -41,9 +41,9 @@ project/
 │   │   ├── react.svg
 │   │   └── vite.svg
 │   │
-│   ├── components/                # Reusable UI building blocks
+│   ├── components/         # Reusable UI building blocks
 │   ├── data/
-│   │   └── meals.js               # Master meals dataset (45 items: international + Bangla meals)
+│   │   └── meals.js      # Master meals dataset (45 items: international + Bangla meals)
 │   │
 │   ├── firebase/
 │   │   └── firebase.js            # Firebase app init — Auth, Firestore, Google provider
