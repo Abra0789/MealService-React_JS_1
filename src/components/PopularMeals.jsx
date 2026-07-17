@@ -1,28 +1,22 @@
-const meals = [
-  {
-    id: 1,
-    name: "Pizza",
-    price: "$12",
-    image:
-      "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=600",
-  },
-  {
-    id: 2,
-    name: "Burger",
-    price: "$10",
-    image:
-      "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600",
-  },
-  {
-    id: 3,
-    name: "Salad",
-    price: "$8",
-    image:
-      "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600",
-  },
-];
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+
+import { addToCart } from "../redux/slices/cartSlice";
+
+import meals from "../data/meals";
 
 const PopularMeals = () => {
+  const dispatch = useDispatch();
+
+  // Show top rated meals from the real dataset (first 3 by rating)
+  const popularMeals = [...meals]
+    .sort((a, b) => b.rating - a.rating)
+    .slice(0, 3);
+
+  const handleAddToCart = (meal) => {
+    dispatch(addToCart(meal));
+  };
+
   return (
     <section className="max-w-7xl mx-auto py-20 px-6">
 
@@ -44,30 +38,34 @@ const PopularMeals = () => {
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
 
-        {meals.map((meal) => (
+        {popularMeals.map((meal) => (
 
           <div
             key={meal.id}
             className="bg-white rounded-3xl shadow-xl overflow-hidden hover:-translate-y-3 hover:shadow-2xl duration-300"
           >
 
-            <img
-              src={meal.image}
-              alt={meal.name}
-              className="w-full h-60 object-cover"
-            />
+            <Link to={`/meals/${meal.id}`}>
+              <img
+                src={meal.image}
+                alt={meal.name}
+                className="w-full h-60 object-cover"
+              />
+            </Link>
 
             <div className="p-6">
 
-              <h3 className="text-2xl font-bold">
+              <Link to={`/meals/${meal.id}`}>
+                <h3 className="text-2xl font-bold hover:text-orange-500 transition">
 
-                {meal.name}
+                  {meal.name}
 
-              </h3>
+                </h3>
+              </Link>
 
               <p className="text-gray-500 mt-2">
 
-                Premium Quality Food
+                {meal.category}
 
               </p>
 
@@ -75,19 +73,22 @@ const PopularMeals = () => {
 
                 <span className="font-bold text-orange-500">
 
-                  {meal.price}
+                  ${meal.price}
 
                 </span>
 
                 <span>
 
-                  ⭐⭐⭐⭐⭐
+                  ⭐ {meal.rating}
 
                 </span>
 
               </div>
 
-              <button className="mt-6 w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl">
+              <button
+                onClick={() => handleAddToCart(meal)}
+                className="mt-6 w-full bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl transition"
+              >
 
                 Add To Cart
 

@@ -188,7 +188,7 @@ const meals = [
   deliveryTime: "15 min",
   calories: 220,
   description: "Creamy butter lentils cooked with mild spices.",
-  image: "./public/images/buter_dal.jfif",
+  image: "/images/buter_dal.jfif",
 },
 {
   id: 17,
@@ -199,7 +199,7 @@ const meals = [
   deliveryTime: "12 min",
   calories: 180,
   description: "Traditional Bangladeshi red lentil soup.",
-  image: "./public/images/masoor.jfif",
+  image: "/images/masoor.jfif",
 },
 {
   id: 18,
@@ -210,7 +210,7 @@ const meals = [
   deliveryTime: "20 min",
   calories: 380,
   description: "Crispy fried Katla fish with aromatic spices.",
-  image: "./public/images/katla.jpg",
+  image: "/images/katla.jpg",
 },
 {
   id: 19,
@@ -221,7 +221,7 @@ const meals = [
   deliveryTime: "8 min",
   calories: 180,
   description: "Golden fried egg served fresh.",
-  image: "./public/images/maxresdefault.jpg",
+  image: "/images/maxresdefault.jpg",
 },
 {
   id: 20,
@@ -232,7 +232,7 @@ const meals = [
   deliveryTime: "10 min",
   calories: 120,
   description: "Crispy fried bitter gourd.",
-  image: "./public/images/korolla.jfif",
+  image: "/images/korolla.jfif",
 },
 {
   id: 21,
@@ -243,7 +243,7 @@ const meals = [
   deliveryTime: "35 min",
   calories: 520,
   description: "Traditional slow-cooked spicy beef curry.",
-  image: "./public/images/beef.jfif",
+  image: "/images/beef.jfif",
 },
 {
   id: 22,
@@ -254,7 +254,7 @@ const meals = [
   deliveryTime: "45 min",
   calories: 850,
   description: "Authentic Bangladeshi Kacchi Biryani.",
-  image: "./public/images/kacchi.jfif",
+  image: "/images/kacchi.jfif",
 },
 {
   id: 23,
@@ -265,7 +265,7 @@ const meals = [
   deliveryTime: "30 min",
   calories: 700,
   description: "Spicy beef tehari cooked with fragrant rice.",
-  image: "./public/images/tehari.jfif",
+  image: "/images/tehari.jfif",
 },
 {
   id: 24,
@@ -276,7 +276,7 @@ const meals = [
   deliveryTime: "30 min",
   calories: 480,
   description: "Juicy roasted chicken with rich gravy.",
-  image: "./public/images/roast.jfif",
+  image: "/images/roast.jfif",
 },
 {
   id: 25,
@@ -287,7 +287,7 @@ const meals = [
   deliveryTime: "25 min",
   calories: 450,
   description: "Classic homemade chicken curry.",
-  image: "./public/images/chickencurry.jfif",
+  image: "/images/chickencurry.jfif",
 },
 {
   id: 26,
@@ -298,7 +298,7 @@ const meals = [
   deliveryTime: "20 min",
   calories: 430,
   description: "Golden fried Hilsa fish.",
-  image: "./public/images/hilsha.jfif",
+  image: "/images/hilsha.jfif",
 },
 {
   id: 27,
@@ -309,7 +309,7 @@ const meals = [
   deliveryTime: "20 min",
   calories: 360,
   description: "Traditional Rui fish curry.",
-  image: "./public/images/rui.jfif",
+  image: "/images/rui.jfif",
 },
 {
   id: 28,
@@ -320,7 +320,7 @@ const meals = [
   deliveryTime: "20 min",
   calories: 520,
   description: "Comforting Bangladeshi khichuri.",
-  image: "./public/images/khichuri.jfif",
+  image: "/images/khichuri.jfif",
 },
 {
   id: 29,
@@ -331,7 +331,7 @@ const meals = [
   deliveryTime: "15 min",
   calories: 160,
   description: "Seasonal mixed vegetables.",
-  image: "./public/images/vegetables.jfif",
+  image: "/images/vegetables.jfif",
 },
 {
   id: 30,
@@ -342,7 +342,7 @@ const meals = [
   deliveryTime: "30 min",
   calories: 470,
   description: "Creamy butter chicken curry.",
-  image: "./public/images/makhani.jfif",
+  image: "/images/makhani.jfif",
 },
 {
   id: 31,
@@ -353,7 +353,7 @@ const meals = [
   deliveryTime: "35 min",
   calories: 480,
   description: "Creamy coconut milk prawn curry.",
-  image: "./public/images/prawn.jfif",
+  image: "/images/prawn.jfif",
 },
 {
   id: 32,
@@ -364,7 +364,7 @@ const meals = [
   deliveryTime: "20 min",
   calories: 150,
   description: "Golden crispy fried eggplant slices.",
-  image: "./public/images/begun.jfif",
+  image: "/images/begun.jfif",
 },
 {
   id: 33,
@@ -375,7 +375,7 @@ const meals = [
   deliveryTime: "10 min",
   calories: 170,
   description: "Mashed potatoes with mustard oil and green chili.",
-  image: "./public/images/alu.jfif",
+  image: "/images/alu.jfif",
 },
 {
   id: 34,
@@ -386,7 +386,7 @@ const meals = [
   deliveryTime: "8 min",
   calories: 90,
   description: "Spicy green chili mash with mustard oil.",
-  image: "./public/images/chilli.jfif",
+  image: "/images/chilli.jfif",
 },
 {
   id: 35,
@@ -397,18 +397,18 @@ const meals = [
   deliveryTime: "15 min",
   calories: 210,
   description: "Roasted mung dal with rich flavor.",
-  image: "./public/images/moong.jfif",
+  image: "/images/moong.jfif",
 },
 {
   id: 36,
-  name: "loitta Shutki Bhorta",
+  name: "Loitta Shutki Bhorta",
   price: 70,
   category: "Bangla Meals",
   rating: 4.7,
   deliveryTime: "15 min",
   calories: 240,
-  description: "loitta dried fish mash with mustard oil and spices.",
-  image: "./public/images/loitta.jfif",
+  description: "Loitta dried fish mash with mustard oil and spices.",
+  image: "/images/loitta.jfif",
 },
 {
   id: 37,
@@ -419,7 +419,7 @@ const meals = [
   deliveryTime: "40 min",
   calories: 560,
   description: "Slow-cooked spicy beef bhuna.",
-  image: "./public/images/bhuna.jfif",
+  image: "/images/bhuna.jfif",
 },
 {
   id: 38,
@@ -430,7 +430,7 @@ const meals = [
   deliveryTime: "45 min",
   calories: 600,
   description: "Authentic Chittagong kala bhuna.",
-  image: "./public/images/kala.jfif",
+  image: "/images/kala.jfif",
 },
 {
   id: 39,
@@ -441,7 +441,7 @@ const meals = [
   deliveryTime: "25 min",
   calories: 620,
   description: "Fragrant Bengali polao with aromatic rice.",
-  image: "./public/images/polao.jfif",
+  image: "/images/polao.jfif",
 },
 {
   id: 40,
@@ -452,7 +452,7 @@ const meals = [
   deliveryTime: "5 min",
   calories: 280,
   description: "Traditional sweet yogurt dessert.",
-  image: "./public/images/doi.jfif",
+  image: "/images/doi.jfif",
 },
 {
   id: 41,
@@ -463,7 +463,7 @@ const meals = [
   deliveryTime: "5 min",
   calories: 260,
   description: "Creamy rice pudding with nuts.",
-  image: "./public/images/firni.jfif",
+  image: "/images/firni.jfif",
 },
 {
   id: 42,
@@ -474,7 +474,7 @@ const meals = [
   deliveryTime: "5 min",
   calories: 340,
   description: "Soft cheese dumplings in sweet milk.",
-  image: "./public/images/roshmalai.jfif",
+  image: "/images/roshmalai.jfif",
 },
 {
   id: 43,
@@ -485,7 +485,7 @@ const meals = [
   deliveryTime: "5 min",
   calories: 230,
   description: "Soft and juicy Bengali rasgulla.",
-  image: "./public/images/rasgulla.jfif",
+  image: "/images/rasgulla.jfif",
 },
 {
   id: 44,
@@ -496,21 +496,21 @@ const meals = [
   deliveryTime: "10 min",
   calories: 300,
   description: "Traditional Bengali milk rice dessert.",
-  image: "./public/images/payesh.jfif",
+  image: "/images/payesh.jfif",
 },
 
 {
   id: 45,
   name: "Rice",
   price: 90,
-  category:"Bangla Meals",
+  category: "Bangla Meals",
   rating: 4.9,
   deliveryTime: "10 min",
   calories: 300,
   description: "Plain steamed rice, a staple in Bangladeshi cuisine.",
-  image: "./public/images/rice.jfif",
+  image: "/images/rice.jfif",
 },
-  
+
 ];
 
 export default meals;

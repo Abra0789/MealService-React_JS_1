@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -21,6 +22,31 @@ const CheckoutForm = () => {
     (state) => state.auth
   );
 
+  const [loading, setLoading] = useState(false);
+
+  // ============================
+  // Shipping Info State
+  // ============================
+
+  const [formData, setFormData] = useState({
+    fullName: user?.fullName || "",
+    email: user?.email || "",
+    phone: "",
+    address: "",
+    city: "",
+    zip: "",
+    paymentMethod: "Cash On Delivery",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const handlePlaceOrder = async (e) => {
     e.preventDefault();
 
@@ -29,13 +55,37 @@ const CheckoutForm = () => {
       return;
     }
 
+    if (
+      !formData.fullName ||
+      !formData.email ||
+      !formData.phone ||
+      !formData.address ||
+      !formData.city ||
+      !formData.zip
+    ) {
+      toast.warning("Please fill all shipping fields.");
+      return;
+    }
+
     try {
+      setLoading(true);
+
       await addDoc(collection(db, "orders"), {
         userId: auth.currentUser.uid,
 
-        userName: user.fullName,
+        userName: formData.fullName,
 
-        email: user.email,
+        email: formData.email,
+
+        phone: formData.phone,
+
+        address: formData.address,
+
+        city: formData.city,
+
+        zip: formData.zip,
+
+        paymentMethod: formData.paymentMethod,
 
         items: cartItems,
 
@@ -56,6 +106,8 @@ const CheckoutForm = () => {
       console.log(error);
 
       toast.error("Failed To Place Order");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -73,28 +125,40 @@ const CheckoutForm = () => {
 
         <input
           type="text"
+          name="fullName"
           placeholder="Full Name"
+          value={formData.fullName}
+          onChange={handleChange}
           required
           className="rounded-xl border p-4 outline-none focus:border-orange-500"
         />
 
         <input
           type="email"
+          name="email"
           placeholder="Email Address"
+          value={formData.email}
+          onChange={handleChange}
           required
           className="rounded-xl border p-4 outline-none focus:border-orange-500"
         />
 
         <input
           type="text"
+          name="phone"
           placeholder="Phone Number"
+          value={formData.phone}
+          onChange={handleChange}
           required
           className="rounded-xl border p-4 outline-none focus:border-orange-500"
         />
 
         <textarea
           rows="4"
+          name="address"
           placeholder="Delivery Address"
+          value={formData.address}
+          onChange={handleChange}
           required
           className="rounded-xl border p-4 outline-none focus:border-orange-500"
         />
@@ -103,14 +167,20 @@ const CheckoutForm = () => {
 
           <input
             type="text"
+            name="city"
             placeholder="City"
+            value={formData.city}
+            onChange={handleChange}
             required
             className="rounded-xl border p-4 outline-none focus:border-orange-500"
           />
 
           <input
             type="text"
+            name="zip"
             placeholder="ZIP Code"
+            value={formData.zip}
+            onChange={handleChange}
             required
             className="rounded-xl border p-4 outline-none focus:border-orange-500"
           />
@@ -118,6 +188,9 @@ const CheckoutForm = () => {
         </div>
 
         <select
+          name="paymentMethod"
+          value={formData.paymentMethod}
+          onChange={handleChange}
           className="rounded-xl border p-4 outline-none focus:border-orange-500"
         >
           <option>Cash On Delivery</option>
@@ -127,9 +200,10 @@ const CheckoutForm = () => {
 
         <button
           type="submit"
-          className="rounded-xl bg-orange-500 py-4 font-semibold text-white transition hover:bg-orange-600"
+          disabled={loading}
+          className="rounded-xl bg-orange-500 py-4 font-semibold text-white transition hover:bg-orange-600 disabled:opacity-50"
         >
-          Place Order
+          {loading ? "Placing Order..." : "Place Order"}
         </button>
 
       </form>
