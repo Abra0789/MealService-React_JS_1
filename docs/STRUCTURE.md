@@ -22,7 +22,6 @@ project/
 │   │   ├── CartItem.jsx
 │   │   ├── CategoryFilter.jsx
 │   │   ├── CheckoutForm.jsx
-│   │   ├── EmptyOrders.jsx
 │   │   ├── Footer.jsx
 │   │   ├── ForgotPasswordForm.jsx
 │   │   ├── Header.jsx
