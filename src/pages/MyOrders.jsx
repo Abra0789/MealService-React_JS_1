@@ -20,7 +20,9 @@ const MyOrders = () => {
   );
 
   const [orders, setOrders] = useState([]);
+  const [mealPlans, setMealPlans] = useState([]);
 
+  // Food Orders
   useEffect(() => {
     if (!user?.uid) return;
 
@@ -50,9 +52,141 @@ const MyOrders = () => {
     return () => unsubscribe();
   }, [user]);
 
+  // Monthly Meal Plans
+  useEffect(() => {
+    if (!user?.uid) return;
+
+    const q = query(
+      collection(db, "mealPlans"),
+      where("userId", "==", user.uid),
+      orderBy("createdAt", "desc")
+    );
+
+    const unsubscribe = onSnapshot(
+      q,
+      (snapshot) => {
+        const planList = snapshot.docs.map(
+          (doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          })
+        );
+
+        setMealPlans(planList);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    return () => unsubscribe();
+  }, [user]);
+
   return (
     <section className="min-h-screen bg-orange-50 py-16">
       <div className="mx-auto max-w-6xl px-5">
+
+        {/* ===================== */}
+        {/* My Meal Plans */}
+        {/* ===================== */}
+
+        <h1 className="mb-10 text-center text-5xl font-bold">
+          My Meal Plans
+        </h1>
+
+        {mealPlans.length === 0 ? (
+
+          <div className="mb-16 rounded-3xl bg-white p-10 text-center shadow-lg">
+
+            <h2 className="text-2xl font-bold">
+              No Meal Plans Yet
+            </h2>
+
+            <p className="mt-3 text-gray-500">
+              Build a monthly meal plan to see it here.
+            </p>
+
+          </div>
+
+        ) : (
+
+          <div className="mb-16 grid gap-6 md:grid-cols-2">
+
+            {mealPlans.map((plan) => (
+
+              <div
+                key={plan.id}
+                className="rounded-3xl bg-white p-6 shadow-lg"
+              >
+
+                <div className="flex items-start justify-between">
+
+                  <div>
+                    <p className="text-xs font-medium text-gray-400">
+                      Plan #{plan.id.slice(0, 8)}
+                    </p>
+
+                    <h3 className="text-xl font-bold">
+                      {plan.startMonthLabel}
+                      {plan.duration > 1 && ` → ${plan.endMonthLabel}`}
+                    </h3>
+
+                    <p className="mt-1 text-sm text-gray-500">
+                      {plan.duration}{" "}
+                      {plan.duration === 1 ? "month" : "months"} ·{" "}
+                      {plan.mealType || "Lunch & Dinner"}
+                    </p>
+                  </div>
+
+                  <span className="rounded-full bg-orange-100 px-4 py-1 text-sm font-semibold text-orange-700">
+                    {plan.status}
+                  </span>
+
+                </div>
+
+                <hr className="my-4" />
+
+                <div className="space-y-1 text-sm text-gray-600">
+
+                  {plan.lunchItems?.length > 0 && (
+                    <p>
+                      🍽 Lunch: {plan.lunchItems.map((i) => i.name).join(", ")}
+                    </p>
+                  )}
+
+                  {plan.dinnerItems?.length > 0 && (
+                    <p>
+                      🌙 Dinner: {plan.dinnerItems.map((i) => i.name).join(", ")}
+                    </p>
+                  )}
+
+                </div>
+
+                <hr className="my-4" />
+
+                <div className="flex items-center justify-between">
+
+                  <span className="text-sm text-gray-500">
+                    Min. Budget: ৳{plan.minBudget}
+                  </span>
+
+                  <span className="text-xl font-bold text-orange-500">
+                    ৳{plan.estimatedTotalCost?.toFixed(0)}
+                  </span>
+
+                </div>
+
+              </div>
+
+            ))}
+
+          </div>
+
+        )}
+
+        {/* ===================== */}
+        {/* My Food Orders */}
+        {/* ===================== */}
 
         <h1 className="mb-10 text-center text-5xl font-bold">
           My Orders

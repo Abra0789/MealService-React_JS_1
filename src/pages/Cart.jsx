@@ -78,7 +78,7 @@ const Cart = () => {
 
                 <span>Subtotal</span>
 
-                <span>${totalAmount.toFixed(2)}</span>
+                <span>৳{totalAmount.toFixed(2)}</span>
 
               </div>
 
@@ -86,7 +86,7 @@ const Cart = () => {
 
                 <span>Delivery Fee</span>
 
-                <span>${deliveryFee.toFixed(2)}</span>
+                <span>৳{deliveryFee.toFixed(2)}</span>
 
               </div>
 
@@ -94,7 +94,7 @@ const Cart = () => {
 
                 <span>Tax (5%)</span>
 
-                <span>${tax.toFixed(2)}</span>
+                <span>৳{tax.toFixed(2)}</span>
 
               </div>
 
@@ -105,7 +105,7 @@ const Cart = () => {
                 <span>Total</span>
 
                 <span className="text-orange-500">
-                  ${grandTotal.toFixed(2)}
+                  ৳{grandTotal.toFixed(2)}
                 </span>
 
               </div>

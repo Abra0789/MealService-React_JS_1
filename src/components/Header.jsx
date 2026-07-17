@@ -94,6 +94,19 @@ const Header = () => {
           </NavLink>
 
           <NavLink
+            to="/meal-plan"
+            className={({ isActive }) =>
+              `relative font-medium transition-all duration-300 after:absolute after:-bottom-2 after:left-0 after:h-0.5 after:w-0 after:bg-orange-500 after:transition-all after:duration-300 hover:text-orange-500 hover:after:w-full ${
+                isActive
+                  ? "text-orange-500 after:w-full"
+                  : "text-gray-700"
+              }`
+            }
+          >
+            Meal Plan
+          </NavLink>
+
+          <NavLink
             to="/cart"
             className={({ isActive }) =>
               `relative flex items-center font-medium transition-all duration-300 after:absolute after:-bottom-2 after:left-0 after:h-0.5 after:w-0 after:bg-orange-500 after:transition-all after:duration-300 hover:text-orange-500 hover:after:w-full ${
@@ -262,6 +275,14 @@ const Header = () => {
                 className="mt-2 rounded-xl px-4 py-3 font-medium text-gray-700 transition-all duration-300 hover:bg-orange-50 hover:text-orange-500"
               >
                 Meals
+              </NavLink>
+
+              <NavLink
+                to="/meal-plan"
+                onClick={() => setMobileMenu(false)}
+                className="mt-2 rounded-xl px-4 py-3 font-medium text-gray-700 transition-all duration-300 hover:bg-orange-50 hover:text-orange-500"
+              >
+                Meal Plan
               </NavLink>
 
               <NavLink

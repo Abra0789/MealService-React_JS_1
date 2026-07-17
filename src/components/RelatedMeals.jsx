@@ -97,7 +97,7 @@ const RelatedMeals = ({ meals }) => {
 
                 <h3 className="text-3xl font-bold text-orange-500">
 
-                  ${meal.price}
+                  ৳{meal.price}
 
                 </h3>
 

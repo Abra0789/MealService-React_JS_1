@@ -73,7 +73,7 @@ const PopularMeals = () => {
 
                 <span className="font-bold text-orange-500">
 
-                  ${meal.price}
+                  ৳{meal.price}
 
                 </span>
 

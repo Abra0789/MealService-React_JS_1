@@ -59,7 +59,7 @@ const MealCard = ({ meal }) => {
         <div className="mt-6 flex items-center justify-between">
 
           <h3 className="text-3xl font-bold text-orange-500">
-            ${meal.price}
+            ৳{meal.price}
           </h3>
 
           <button

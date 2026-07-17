@@ -33,6 +33,7 @@ import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
 import Profile from "./pages/Profile";
 import MyOrders from "./pages/MyOrders";
+import MealPlan from "./pages/MealPlan";
 import NotFound from "./pages/NotFound";
 
 function App() {
@@ -102,6 +103,11 @@ function App() {
           <Route
             path="cart"
             element={<Cart />}
+          />
+
+          <Route
+            path="meal-plan"
+            element={<MealPlan />}
           />
 
           <Route

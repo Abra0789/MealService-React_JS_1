@@ -182,7 +182,7 @@ const meals = [
   {
   id: 16,
   name: "Buter Dal",
-  price: 60,
+  price: 30,
   category: "Bangla Meals",
   rating: 4.7,
   deliveryTime: "15 min",
@@ -193,7 +193,7 @@ const meals = [
 {
   id: 17,
   name: "Masoor Dal",
-  price: 40,
+  price: 20,
   category: "Bangla Meals",
   rating: 4.6,
   deliveryTime: "12 min",
@@ -204,7 +204,7 @@ const meals = [
 {
   id: 18,
   name: "Katla Fish Fry",
-  price: 180,
+  price: 90,
   category: "Bangla Meals",
   rating: 4.9,
   deliveryTime: "20 min",
@@ -215,7 +215,7 @@ const meals = [
 {
   id: 19,
   name: "Egg Fry",
-  price: 35,
+  price: 20,
   category: "Bangla Meals",
   rating: 4.7,
   deliveryTime: "8 min",
@@ -226,7 +226,7 @@ const meals = [
 {
   id: 20,
   name: "Korolla Bhaji",
-  price: 50,
+  price: 25,
   category: "Bangla Meals",
   rating: 4.5,
   deliveryTime: "10 min",
@@ -237,7 +237,7 @@ const meals = [
 {
   id: 21,
   name: "Beef Curry",
-  price: 280,
+  price: 140,
   category: "Bangla Meals",
   rating: 5.0,
   deliveryTime: "35 min",
@@ -248,7 +248,7 @@ const meals = [
 {
   id: 22,
   name: "Kacchi Biryani",
-  price: 380,
+  price: 190,
   category: "Bangla Meals",
   rating: 5.0,
   deliveryTime: "45 min",
@@ -259,7 +259,7 @@ const meals = [
 {
   id: 23,
   name: "Tehari",
-  price: 250,
+  price: 130,
   category: "Bangla Meals",
   rating: 4.9,
   deliveryTime: "30 min",
@@ -270,7 +270,7 @@ const meals = [
 {
   id: 24,
   name: "Chicken Roast",
-  price: 220,
+  price: 110,
   category: "Bangla Meals",
   rating: 4.8,
   deliveryTime: "30 min",
@@ -281,7 +281,7 @@ const meals = [
 {
   id: 25,
   name: "Chicken Curry",
-  price: 180,
+  price: 90,
   category: "Bangla Meals",
   rating: 4.7,
   deliveryTime: "25 min",
@@ -292,7 +292,7 @@ const meals = [
 {
   id: 26,
   name: "Hilsa Fry",
-  price: 350,
+  price: 180,
   category: "Bangla Meals",
   rating: 5.0,
   deliveryTime: "20 min",
@@ -303,7 +303,7 @@ const meals = [
 {
   id: 27,
   name: "Rui Fish Curry",
-  price: 170,
+  price: 90,
   category: "Bangla Meals",
   rating: 4.8,
   deliveryTime: "20 min",
@@ -314,7 +314,7 @@ const meals = [
 {
   id: 28,
   name: "Khichuri",
-  price: 150,
+  price: 80,
   category: "Bangla Meals",
   rating: 4.8,
   deliveryTime: "20 min",
@@ -325,7 +325,7 @@ const meals = [
 {
   id: 29,
   name: "Mixed Vegetable",
-  price: 80,
+  price: 40,
   category: "Bangla Meals",
   rating: 4.6,
   deliveryTime: "15 min",
@@ -336,7 +336,7 @@ const meals = [
 {
   id: 30,
   name: "Murgh Makhani",
-  price: 260,
+  price: 130,
   category: "Bangla Meals",
   rating: 4.9,
   deliveryTime: "30 min",
@@ -347,7 +347,7 @@ const meals = [
 {
   id: 31,
   name: "Prawn Malai Curry",
-  price: 320,
+  price: 160,
   category: "Bangla Meals",
   rating: 5.0,
   deliveryTime: "35 min",
@@ -358,7 +358,7 @@ const meals = [
 {
   id: 32,
   name: "Begun Bhaja",
-  price: 60,
+  price: 30,
   category: "Bangla Meals",
   rating: 4.7,
   deliveryTime: "20 min",
@@ -369,7 +369,7 @@ const meals = [
 {
   id: 33,
   name: "Aloo Bhorta",
-  price: 50,
+  price: 25,
   category: "Bangla Meals",
   rating: 4.8,
   deliveryTime: "10 min",
@@ -380,7 +380,7 @@ const meals = [
 {
   id: 34,
   name: "Green Chili Bhorta",
-  price: 40,
+  price: 20,
   category: "Bangla Meals",
   rating: 4.6,
   deliveryTime: "8 min",
@@ -391,7 +391,7 @@ const meals = [
 {
   id: 35,
   name: "Moong Dal",
-  price: 55,
+  price: 30,
   category: "Bangla Meals",
   rating: 4.8,
   deliveryTime: "15 min",
@@ -402,7 +402,7 @@ const meals = [
 {
   id: 36,
   name: "Loitta Shutki Bhorta",
-  price: 70,
+  price: 35,
   category: "Bangla Meals",
   rating: 4.7,
   deliveryTime: "15 min",
@@ -413,7 +413,7 @@ const meals = [
 {
   id: 37,
   name: "Beef Bhuna",
-  price: 320,
+  price: 160,
   category: "Bangla Meals",
   rating: 5.0,
   deliveryTime: "40 min",
@@ -424,7 +424,7 @@ const meals = [
 {
   id: 38,
   name: "Kala Bhuna",
-  price: 350,
+  price: 180,
   category: "Bangla Meals",
   rating: 5.0,
   deliveryTime: "45 min",
@@ -435,7 +435,7 @@ const meals = [
 {
   id: 39,
   name: "Polao",
-  price: 180,
+  price: 90,
   category: "Bangla Meals",
   rating: 4.9,
   deliveryTime: "25 min",
@@ -446,7 +446,7 @@ const meals = [
 {
   id: 40,
   name: "Mishti Doi",
-  price: 90,
+  price: 45,
   category: "Bangla Meals",
   rating: 4.9,
   deliveryTime: "5 min",
@@ -457,7 +457,7 @@ const meals = [
 {
   id: 41,
   name: "Firni",
-  price: 80,
+  price: 40,
   category: "Bangla Meals",
   rating: 4.8,
   deliveryTime: "5 min",
@@ -468,7 +468,7 @@ const meals = [
 {
   id: 42,
   name: "Rosmalai",
-  price: 120,
+  price: 60,
   category: "Bangla Meals",
   rating: 5.0,
   deliveryTime: "5 min",
@@ -479,7 +479,7 @@ const meals = [
 {
   id: 43,
   name: "Rasgulla",
-  price: 70,
+  price: 35,
   category: "Bangla Meals",
   rating: 4.8,
   deliveryTime: "5 min",
@@ -490,7 +490,7 @@ const meals = [
 {
   id: 44,
   name: "Payesh",
-  price: 90,
+  price: 45,
   category: "Bangla Meals",
   rating: 4.9,
   deliveryTime: "10 min",
@@ -502,7 +502,7 @@ const meals = [
 {
   id: 45,
   name: "Rice",
-  price: 90,
+  price: 40,
   category: "Bangla Meals",
   rating: 4.9,
   deliveryTime: "10 min",

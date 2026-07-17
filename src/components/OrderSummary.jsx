@@ -43,7 +43,7 @@ const OrderSummary = () => {
             </div>
 
             <p className="font-semibold">
-              ${item.totalPrice}
+              ৳{item.totalPrice}
             </p>
 
           </div>
@@ -58,7 +58,7 @@ const OrderSummary = () => {
 
           <span>Subtotal</span>
 
-          <span>${totalAmount.toFixed(2)}</span>
+          <span>৳{totalAmount.toFixed(2)}</span>
 
         </div>
 
@@ -66,7 +66,7 @@ const OrderSummary = () => {
 
           <span>Delivery Fee</span>
 
-          <span>${deliveryFee.toFixed(2)}</span>
+          <span>৳{deliveryFee.toFixed(2)}</span>
 
         </div>
 
@@ -74,7 +74,7 @@ const OrderSummary = () => {
 
           <span>Tax (5%)</span>
 
-          <span>${tax.toFixed(2)}</span>
+          <span>৳{tax.toFixed(2)}</span>
 
         </div>
 
@@ -85,7 +85,7 @@ const OrderSummary = () => {
           <span>Total</span>
 
           <span className="text-orange-500">
-            ${grandTotal.toFixed(2)}
+            ৳{grandTotal.toFixed(2)}
           </span>
 
         </div>

@@ -126,7 +126,7 @@ const MealDetails = () => {
           </p>
 
           <h2 className="mt-10 text-5xl font-bold text-orange-500">
-            ${meal.price}
+            ৳{meal.price}
           </h2>
                     {/* Quantity */}
 

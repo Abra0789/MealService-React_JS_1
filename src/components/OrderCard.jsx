@@ -99,13 +99,13 @@ const OrderCard = ({ order }) => {
               </p>
 
               <p className="text-gray-500">
-                Price : ${item.price}
+                Price : ৳{item.price}
               </p>
             </div>
 
             <div>
               <h3 className="text-2xl font-bold text-orange-500">
-                ${item.totalPrice}
+                ৳{item.totalPrice}
               </h3>
             </div>
           </div>
@@ -122,7 +122,7 @@ const OrderCard = ({ order }) => {
         </h2>
 
         <h2 className="text-4xl font-bold text-orange-500">
-          ${order.totalAmount}
+          ৳{order.totalAmount}
         </h2>
       </div>
 

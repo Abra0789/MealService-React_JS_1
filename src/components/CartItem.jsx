@@ -28,7 +28,7 @@ const CartItem = ({ item }) => {
           </h2>
 
           <p className="mt-2 text-lg text-gray-500">
-            Price : ${item.price}
+            Price : ৳{item.price}
           </p>
 
           <p className="mt-1 text-sm text-gray-400">
@@ -71,7 +71,7 @@ const CartItem = ({ item }) => {
 
         {/* Total Price */}
         <h2 className="mt-6 text-4xl font-bold text-orange-500">
-          ${item.totalPrice}
+          ৳{item.totalPrice}
         </h2>
 
         {/* Remove Button */}
