@@ -1,6 +1,7 @@
 const categories = [
   "All",
   "Fast Food",
+  "Bangla Meals",
   "Italian",
   "Chicken",
   "Healthy",
@@ -12,6 +13,7 @@ const categories = [
   "BBQ",
   "Chinese",
   "Dessert",
+
 ];
 
 const CategoryFilter = ({ category, setCategory }) => {
