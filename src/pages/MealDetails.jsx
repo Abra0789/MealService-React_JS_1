@@ -1,6 +1,7 @@
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 import { addToCart } from "../redux/slices/cartSlice";
 
@@ -59,6 +60,17 @@ const MealDetails = () => {
     }
   };
 
+  const handleAddToCart = () => {
+    dispatch(
+      addToCart({
+        ...meal,
+        quantity,
+      })
+    );
+
+    toast.success(`${meal.name} added to cart!`);
+  };
+
   const handleBuyNow = () => {
     if (!isLoggedIn) {
       navigate("/login");
@@ -71,6 +83,8 @@ const MealDetails = () => {
         quantity,
       })
     );
+
+    toast.success(`${meal.name} added to cart!`);
 
     navigate("/checkout");
   };
@@ -157,14 +171,7 @@ const MealDetails = () => {
           <div className="mt-10 flex gap-5">
 
             <button
-              onClick={() =>
-                dispatch(
-                  addToCart({
-                    ...meal,
-                    quantity,
-                  })
-                )
-              }
+              onClick={handleAddToCart}
               className="rounded-xl bg-orange-500 px-10 py-4 font-semibold text-white transition hover:bg-orange-600"
             >
               🛒 Add To Cart

@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import {
   setStartMonth,
   setDuration,
+  setDeliveryField,
   toggleMealType,
   addPlanItem,
   removePlanItem,
@@ -59,6 +60,7 @@ const MealPlan = () => {
     wantsDinner,
     lunchItems,
     dinnerItems,
+    deliveryInfo,
   } = useSelector((state) => state.mealPlan);
 
   const { isLoggedIn, user } = useSelector((state) => state.auth);
@@ -122,6 +124,10 @@ const MealPlan = () => {
 
   // Items already in the currently active slot (for showing "Added" state)
   const activeList = activeSlot === "lunch" ? lunchItems : dinnerItems;
+
+  const handleDeliveryChange = (field, value) => {
+    dispatch(setDeliveryField({ field, value }));
+  };
 
   // Rotation model: Rice is eaten every day (fixed cost). The other
   // selected items are a variety pool that gets rotated/shuffled across
@@ -214,6 +220,16 @@ const MealPlan = () => {
       return;
     }
 
+    if (
+      !deliveryInfo.phone ||
+      !deliveryInfo.address ||
+      !deliveryInfo.city ||
+      !deliveryInfo.zip
+    ) {
+      toast.warning("Please fill in your delivery details.");
+      return;
+    }
+
     const mealType =
       wantsLunch && wantsDinner
         ? "Lunch & Dinner"
@@ -228,6 +244,10 @@ const MealPlan = () => {
         userId: auth.currentUser.uid,
         userName: user?.fullName || "",
         email: user?.email || "",
+        phone: deliveryInfo.phone,
+        address: deliveryInfo.address,
+        city: deliveryInfo.city,
+        zip: deliveryInfo.zip,
         startMonth,
         startMonthLabel: monthOptions.find(
           (opt) => opt.value === startMonth
@@ -564,6 +584,52 @@ const MealPlan = () => {
             <span className="text-orange-500">
               ৳{estimatedTotalCost.toFixed(0)}
             </span>
+          </div>
+
+          <hr className="my-6" />
+
+          <h3 className="mb-4 font-bold text-gray-700">
+            Delivery Details
+          </h3>
+
+          <div className="space-y-3">
+
+            <input
+              type="text"
+              placeholder="Phone Number"
+              value={deliveryInfo.phone}
+              onChange={(e) => handleDeliveryChange("phone", e.target.value)}
+              className="w-full rounded-xl border p-3 text-sm outline-none focus:border-orange-500"
+            />
+
+            <textarea
+              rows="2"
+              placeholder="Delivery Address"
+              value={deliveryInfo.address}
+              onChange={(e) => handleDeliveryChange("address", e.target.value)}
+              className="w-full rounded-xl border p-3 text-sm outline-none focus:border-orange-500"
+            />
+
+            <div className="grid grid-cols-2 gap-3">
+
+              <input
+                type="text"
+                placeholder="City"
+                value={deliveryInfo.city}
+                onChange={(e) => handleDeliveryChange("city", e.target.value)}
+                className="w-full rounded-xl border p-3 text-sm outline-none focus:border-orange-500"
+              />
+
+              <input
+                type="text"
+                placeholder="ZIP Code"
+                value={deliveryInfo.zip}
+                onChange={(e) => handleDeliveryChange("zip", e.target.value)}
+                className="w-full rounded-xl border p-3 text-sm outline-none focus:border-orange-500"
+              />
+
+            </div>
+
           </div>
 
           <button

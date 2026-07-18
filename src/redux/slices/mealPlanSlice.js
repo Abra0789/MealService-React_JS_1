@@ -24,6 +24,12 @@ const initialState = {
   wantsDinner: false,
   lunchItems: [],
   dinnerItems: [],
+  deliveryInfo: {
+    phone: "",
+    address: "",
+    city: "",
+    zip: "",
+  },
 };
 
 const mealPlanSlice = createSlice({
@@ -41,6 +47,11 @@ const mealPlanSlice = createSlice({
       // cleared without snapping back). The real minimum of 1 is
       // enforced as a validation check when the plan is confirmed.
       state.duration = Math.max(0, action.payload);
+    },
+
+    setDeliveryField: (state, action) => {
+      const { field, value } = action.payload;
+      state.deliveryInfo[field] = value;
     },
 
     // Toggle lunch/dinner selection — never allow turning both off.
@@ -102,6 +113,12 @@ const mealPlanSlice = createSlice({
       state.wantsDinner = false;
       state.lunchItems = [];
       state.dinnerItems = [];
+      state.deliveryInfo = {
+        phone: "",
+        address: "",
+        city: "",
+        zip: "",
+      };
     },
   },
 });
@@ -109,6 +126,7 @@ const mealPlanSlice = createSlice({
 export const {
   setStartMonth,
   setDuration,
+  setDeliveryField,
   toggleMealType,
   addPlanItem,
   removePlanItem,

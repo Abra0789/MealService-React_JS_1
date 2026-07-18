@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
 
 import { addToCart } from "../redux/slices/cartSlice";
 
@@ -15,6 +16,7 @@ const PopularMeals = () => {
 
   const handleAddToCart = (meal) => {
     dispatch(addToCart(meal));
+    toast.success(`${meal.name} added to cart!`);
   };
 
   return (

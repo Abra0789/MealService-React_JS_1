@@ -152,6 +152,12 @@ const MyOrders = () => {
 
                 </div>
 
+                {plan.address && (
+                  <p className="mt-3 text-sm text-gray-500">
+                    📍 {plan.address}, {plan.city} {plan.zip} · 📞 {plan.phone}
+                  </p>
+                )}
+
                 <hr className="my-4" />
 
                 <div className="space-y-1 text-sm text-gray-600">
