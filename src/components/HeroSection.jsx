@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const HeroSection = () => {
   return (
     <section className="bg-linear-to-r from-orange-50 to-orange-100 min-h-[90vh] flex items-center rounded-lg">
@@ -23,13 +25,19 @@ const HeroSection = () => {
 
           <div className="flex gap-5 mt-10">
 
-            <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-xl">
+            <Link
+              to="/meals"
+              className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-xl"
+            >
               Order Now
-            </button>
+            </Link>
 
-            <button className="border-2 border-orange-500 text-orange-500 px-8 py-4 rounded-xl hover:bg-orange-500 hover:text-white">
+            <Link
+              to="/meals"
+              className="border-2 border-orange-500 text-orange-500 px-8 py-4 rounded-xl hover:bg-orange-500 hover:text-white"
+            >
               Explore Menu
-            </button>
+            </Link>
 
           </div>
 
