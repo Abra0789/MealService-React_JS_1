@@ -21,6 +21,14 @@ const MyOrders = () => {
 
   const [orders, setOrders] = useState([]);
   const [mealPlans, setMealPlans] = useState([]);
+  const [expandedPlans, setExpandedPlans] = useState({});
+
+  const toggleSchedule = (planId) => {
+    setExpandedPlans((prev) => ({
+      ...prev,
+      [planId]: !prev[planId],
+    }));
+  };
 
   // Food Orders
   useEffect(() => {
@@ -162,12 +170,50 @@ const MyOrders = () => {
 
                 </div>
 
+                {(plan.lunchRotation?.length > 0 ||
+                  plan.dinnerRotation?.length > 0) && (
+                  <>
+                    <button
+                      onClick={() => toggleSchedule(plan.id)}
+                      className="mt-3 w-full rounded-xl border-2 border-orange-200 py-2 text-xs font-semibold text-orange-500 transition hover:bg-orange-50"
+                    >
+                      {expandedPlans[plan.id] ? "Hide" : "📅 View"} Daily
+                      Rotation
+                    </button>
+
+                    {expandedPlans[plan.id] && (
+                      <div className="mt-3 max-h-48 overflow-y-auto rounded-xl border border-gray-200 p-3 text-xs">
+                        {Array.from({ length: 30 }, (_, i) => (
+                          <div
+                            key={i}
+                            className="flex items-center justify-between gap-2 border-b py-1 last:border-0"
+                          >
+                            <span className="font-medium text-gray-400">
+                              Day {i + 1}
+                            </span>
+
+                            <span className="text-right text-gray-700">
+                              {plan.lunchRotation?.[i] &&
+                                `🍽 ${plan.lunchRotation[i]}`}
+                              {plan.lunchRotation?.[i] &&
+                                plan.dinnerRotation?.[i] &&
+                                "  ·  "}
+                              {plan.dinnerRotation?.[i] &&
+                                `🌙 ${plan.dinnerRotation[i]}`}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                )}
+
                 <hr className="my-4" />
 
                 <div className="flex items-center justify-between">
 
                   <span className="text-sm text-gray-500">
-                    Min. Budget: ৳{plan.minBudget}
+                    Total Cost
                   </span>
 
                   <span className="text-xl font-bold text-orange-500">

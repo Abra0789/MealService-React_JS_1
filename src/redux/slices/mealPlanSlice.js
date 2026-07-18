@@ -20,11 +20,10 @@ const RICE_ITEM = {
 const initialState = {
   startMonth: "", // e.g. "2026-08" (YYYY-MM)
   duration: 1,     // number of months, minimum 1
-  minBudget: 0,
-  wantsLunch: true,
-  wantsDinner: true,
-  lunchItems: [RICE_ITEM],
-  dinnerItems: [RICE_ITEM],
+  wantsLunch: false,
+  wantsDinner: false,
+  lunchItems: [],
+  dinnerItems: [],
 };
 
 const mealPlanSlice = createSlice({
@@ -44,20 +43,26 @@ const mealPlanSlice = createSlice({
       state.duration = Math.max(0, action.payload);
     },
 
-    setMinBudget: (state, action) => {
-      state.minBudget = action.payload;
-    },
-
-    // Toggle lunch/dinner selection — but never allow turning both off
+    // Toggle lunch/dinner selection — never allow turning both off.
+    // Rice is added to that slot's list the moment it's switched ON
+    // (not before), and simply stays if switched off again.
     toggleMealType: (state, action) => {
       const type = action.payload; // "lunch" | "dinner"
 
       if (type === "lunch") {
         if (state.wantsLunch && !state.wantsDinner) return; // last one on, block
         state.wantsLunch = !state.wantsLunch;
+
+        if (state.wantsLunch && !state.lunchItems.some((i) => i.isFixed)) {
+          state.lunchItems.push(RICE_ITEM);
+        }
       } else {
         if (state.wantsDinner && !state.wantsLunch) return; // last one on, block
         state.wantsDinner = !state.wantsDinner;
+
+        if (state.wantsDinner && !state.dinnerItems.some((i) => i.isFixed)) {
+          state.dinnerItems.push(RICE_ITEM);
+        }
       }
     },
 
@@ -93,11 +98,10 @@ const mealPlanSlice = createSlice({
     resetPlan: (state) => {
       state.startMonth = "";
       state.duration = 1;
-      state.minBudget = 0;
-      state.wantsLunch = true;
-      state.wantsDinner = true;
-      state.lunchItems = [RICE_ITEM];
-      state.dinnerItems = [RICE_ITEM];
+      state.wantsLunch = false;
+      state.wantsDinner = false;
+      state.lunchItems = [];
+      state.dinnerItems = [];
     },
   },
 });
@@ -105,7 +109,6 @@ const mealPlanSlice = createSlice({
 export const {
   setStartMonth,
   setDuration,
-  setMinBudget,
   toggleMealType,
   addPlanItem,
   removePlanItem,

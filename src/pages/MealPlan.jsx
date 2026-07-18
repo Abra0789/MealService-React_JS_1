@@ -10,7 +10,6 @@ import { toast } from "react-toastify";
 import {
   setStartMonth,
   setDuration,
-  setMinBudget,
   toggleMealType,
   addPlanItem,
   removePlanItem,
@@ -56,7 +55,6 @@ const MealPlan = () => {
   const {
     startMonth,
     duration,
-    minBudget,
     wantsLunch,
     wantsDinner,
     lunchItems,
@@ -71,6 +69,7 @@ const MealPlan = () => {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
   const [saving, setSaving] = useState(false);
+  const [showSchedule, setShowSchedule] = useState(false);
 
   const filteredMeals = meals.filter((meal) => {
     const matchSearch = meal.name
@@ -83,10 +82,15 @@ const MealPlan = () => {
     return matchSearch && matchCategory;
   });
 
-  // Keep the active tab valid if a meal type gets unchecked
+  // Keep the active tab valid if a meal type gets unchecked — but only
+  // switch to the other one if it's actually still selected, otherwise
+  // (e.g. both off, or on initial load) this would ping-pong forever.
   useEffect(() => {
-    if (!wantsLunch && activeSlot === "lunch") setActiveSlot("dinner");
-    if (!wantsDinner && activeSlot === "dinner") setActiveSlot("lunch");
+    if (activeSlot === "lunch" && !wantsLunch && wantsDinner) {
+      setActiveSlot("dinner");
+    } else if (activeSlot === "dinner" && !wantsDinner && wantsLunch) {
+      setActiveSlot("lunch");
+    }
   }, [wantsLunch, wantsDinner, activeSlot]);
 
   const handleAdd = (meal) => {
@@ -95,6 +99,25 @@ const MealPlan = () => {
 
   const handleRemove = (id, slot) => {
     dispatch(removePlanItem({ id, slot }));
+  };
+
+  // Single handler for the merged Lunch/Dinner buttons:
+  // - Not included yet          -> include it AND switch to it
+  // - Included but not active   -> just switch the active tab to it
+  // - Included and already active -> try to turn it off (the reducer
+  //   itself blocks turning off the last remaining one)
+  const handleMealTypeClick = (type) => {
+    const isIncluded = type === "lunch" ? wantsLunch : wantsDinner;
+    const isActive = activeSlot === type;
+
+    if (!isIncluded) {
+      dispatch(toggleMealType(type));
+      setActiveSlot(type);
+    } else if (!isActive) {
+      setActiveSlot(type);
+    } else {
+      dispatch(toggleMealType(type));
+    }
   };
 
   // Items already in the currently active slot (for showing "Added" state)
@@ -127,9 +150,22 @@ const MealPlan = () => {
 
   const estimatedTotalCost = estimatedMonthlyCost * duration;
 
-  // minBudget is the amount the user wants to stay WITHIN (a cap),
-  // not a floor — so we flag it when the estimate goes over.
-  const isOverBudget = minBudget > 0 && estimatedMonthlyCost > minBudget;
+  // Builds a 30-day round-robin rotation so the user can see exactly
+  // which selected item lands on which day (this same pattern repeats
+  // every month for the plan's duration).
+  const generateRotation = (items) => {
+    const rotatingItems = items.filter((item) => !item.isFixed);
+
+    if (rotatingItems.length === 0) return [];
+
+    return Array.from(
+      { length: 30 },
+      (_, i) => rotatingItems[i % rotatingItems.length]
+    );
+  };
+
+  const lunchRotation = wantsLunch ? generateRotation(lunchItems) : [];
+  const dinnerRotation = wantsDinner ? generateRotation(dinnerItems) : [];
 
   // Label for the end month based on startMonth + duration
   const getEndMonthLabel = () => {
@@ -164,6 +200,11 @@ const MealPlan = () => {
       return;
     }
 
+    if (!wantsLunch && !wantsDinner) {
+      toast.warning("Please select Lunch, Dinner, or both.");
+      return;
+    }
+
     const hasExtraItems =
       (wantsLunch && lunchItems.some((item) => !item.isFixed)) ||
       (wantsDinner && dinnerItems.some((item) => !item.isFixed));
@@ -193,10 +234,11 @@ const MealPlan = () => {
         )?.label,
         endMonthLabel: getEndMonthLabel(),
         duration,
-        minBudget,
         mealType,
         lunchItems: wantsLunch ? lunchItems : [],
         dinnerItems: wantsDinner ? dinnerItems : [],
+        lunchRotation: lunchRotation.map((item) => item.name),
+        dinnerRotation: dinnerRotation.map((item) => item.name),
         estimatedMonthlyCost,
         estimatedTotalCost,
         status: "Active",
@@ -288,28 +330,35 @@ const MealPlan = () => {
 
       </div>
 
-      {/* Meal Type Selection */}
-      <div className="mb-10 flex gap-8">
+      {/* Meal Type Selection — one button does both jobs: toggles
+          whether this meal time is part of the plan, AND switches
+          which pool the item picker below is showing */}
+      <div className="mb-10 flex gap-4">
 
-        <label className="flex items-center gap-2 font-medium">
-          <input
-            type="checkbox"
-            checked={wantsLunch}
-            onChange={() => dispatch(toggleMealType("lunch"))}
-            className="h-5 w-5 accent-orange-500"
-          />
-          🍽 Lunch
-        </label>
+        {["lunch", "dinner"].map((type) => {
 
-        <label className="flex items-center gap-2 font-medium">
-          <input
-            type="checkbox"
-            checked={wantsDinner}
-            onChange={() => dispatch(toggleMealType("dinner"))}
-            className="h-5 w-5 accent-orange-500"
-          />
-          🌙 Dinner
-        </label>
+          const isIncluded = type === "lunch" ? wantsLunch : wantsDinner;
+          const isActive = activeSlot === type;
+          const label = type === "lunch" ? "🍽 Lunch" : "🌙 Dinner";
+
+          return (
+            <button
+              key={type}
+              onClick={() => handleMealTypeClick(type)}
+              className={`flex items-center gap-2 rounded-full border px-6 py-3 font-semibold transition ${
+                isIncluded && isActive
+                  ? "border-orange-500 bg-orange-500 text-white"
+                  : isIncluded
+                  ? "border-orange-300 bg-orange-50 text-orange-600"
+                  : "border-gray-300 bg-white text-gray-500"
+              }`}
+            >
+              {isIncluded && <span>✓</span>}
+              {label}
+            </button>
+          );
+
+        })}
 
       </div>
 
@@ -318,101 +367,74 @@ const MealPlan = () => {
         {/* Left: Item Picker */}
         <div className="lg:col-span-2">
 
-          {/* Slot Switch */}
-          {wantsLunch && wantsDinner && (
-            <div className="mb-6 flex gap-4">
+          {wantsLunch || wantsDinner ? (
+            <>
+              <div className="mb-6 flex flex-wrap items-center gap-4">
+                <SearchBar search={search} setSearch={setSearch} />
+              </div>
 
-              <button
-                onClick={() => setActiveSlot("lunch")}
-                className={`rounded-full px-6 py-3 font-semibold transition ${
-                  activeSlot === "lunch"
-                    ? "bg-orange-500 text-white"
-                    : "bg-white text-gray-700 border border-gray-300"
-                }`}
-              >
-                🍽 Lunch
-              </button>
+              <CategoryFilter
+                category={category}
+                setCategory={setCategory}
+              />
 
-              <button
-                onClick={() => setActiveSlot("dinner")}
-                className={`rounded-full px-6 py-3 font-semibold transition ${
-                  activeSlot === "dinner"
-                    ? "bg-orange-500 text-white"
-                    : "bg-white text-gray-700 border border-gray-300"
-                }`}
-              >
-                🌙 Dinner
-              </button>
+              <div className="grid gap-6 sm:grid-cols-2">
 
-            </div>
-          )}
+                {filteredMeals.map((meal) => {
 
-          {!(wantsLunch && wantsDinner) && (
-            <p className="mb-6 font-semibold text-orange-500">
-              Adding items for: {wantsLunch ? "🍽 Lunch" : "🌙 Dinner"}
-            </p>
-          )}
+                  const isAdded = activeList.some(
+                    (item) => item.id === meal.id
+                  );
 
-          <div className="mb-6 flex flex-wrap items-center gap-4">
-            <SearchBar search={search} setSearch={setSearch} />
-          </div>
+                  return (
 
-          <CategoryFilter
-            category={category}
-            setCategory={setCategory}
-          />
+                    <div
+                      key={meal.id}
+                      className="flex items-center justify-between rounded-2xl bg-white p-4 shadow"
+                    >
 
-          <div className="grid gap-6 sm:grid-cols-2">
+                      <div className="flex items-center gap-4">
 
-            {filteredMeals.map((meal) => {
+                        <img
+                          src={meal.image}
+                          alt={meal.name}
+                          className="h-16 w-16 rounded-xl object-cover"
+                        />
 
-              const isAdded = activeList.some(
-                (item) => item.id === meal.id
-              );
+                        <div>
+                          <h3 className="font-bold">{meal.name}</h3>
+                          <p className="text-sm text-gray-500">
+                            ৳{meal.price}
+                          </p>
+                        </div>
 
-              return (
+                      </div>
 
-                <div
-                  key={meal.id}
-                  className="flex items-center justify-between rounded-2xl bg-white p-4 shadow"
-                >
+                      <button
+                        onClick={() => !isAdded && handleAdd(meal)}
+                        disabled={isAdded}
+                        className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
+                          isAdded
+                            ? "cursor-not-allowed bg-green-100 text-green-700"
+                            : "bg-orange-500 text-white hover:bg-orange-600"
+                        }`}
+                      >
+                        {isAdded ? "Added ✓" : "+ Add"}
+                      </button>
 
-                  <div className="flex items-center gap-4">
-
-                    <img
-                      src={meal.image}
-                      alt={meal.name}
-                      className="h-16 w-16 rounded-xl object-cover"
-                    />
-
-                    <div>
-                      <h3 className="font-bold">{meal.name}</h3>
-                      <p className="text-sm text-gray-500">
-                        ৳{meal.price}
-                      </p>
                     </div>
 
-                  </div>
+                  );
 
-                  <button
-                    onClick={() => !isAdded && handleAdd(meal)}
-                    disabled={isAdded}
-                    className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
-                      isAdded
-                        ? "cursor-not-allowed bg-green-100 text-green-700"
-                        : "bg-orange-500 text-white hover:bg-orange-600"
-                    }`}
-                  >
-                    {isAdded ? "Added ✓" : "+ Add"}
-                  </button>
+                })}
 
-                </div>
-
-              );
-
-            })}
-
-          </div>
+              </div>
+            </>
+          ) : (
+            <div className="rounded-2xl bg-white p-10 text-center text-gray-400 shadow">
+              👆 Select Lunch, Dinner, or both above to start adding items.
+            </div>
+          )}
 
         </div>
 
@@ -430,21 +452,6 @@ const MealPlan = () => {
               {" "}({duration} {duration === 1 ? "month" : "months"})
             </p>
           )}
-
-          <label className="mb-2 block font-medium">
-            Your Monthly Budget (৳)
-          </label>
-
-          <input
-            type="number"
-            value={minBudget === 0 ? "" : minBudget}
-            onChange={(e) => {
-              const val = e.target.value;
-              dispatch(setMinBudget(val === "" ? 0 : Number(val)));
-            }}
-            placeholder="e.g. 3000"
-            className="mb-6 w-full rounded-xl border p-3 outline-none focus:border-orange-500"
-          />
 
           {/* Lunch List */}
           {wantsLunch && (
@@ -510,6 +517,38 @@ const MealPlan = () => {
 
           <hr className="my-6" />
 
+          {(lunchRotation.length > 0 || dinnerRotation.length > 0) && (
+            <>
+              <button
+                onClick={() => setShowSchedule(!showSchedule)}
+                className="mb-4 w-full rounded-xl border-2 border-orange-300 py-3 text-sm font-semibold text-orange-500 transition hover:bg-orange-50"
+              >
+                {showSchedule ? "Hide" : "📅 Preview"} Daily Rotation
+              </button>
+
+              {showSchedule && (
+                <div className="mb-6 max-h-64 overflow-y-auto rounded-xl border border-gray-200 p-3 text-sm">
+                  {Array.from({ length: 30 }, (_, i) => (
+                    <div
+                      key={i}
+                      className="flex items-center justify-between gap-2 border-b py-1.5 last:border-0"
+                    >
+                      <span className="font-medium text-gray-400">
+                        Day {i + 1}
+                      </span>
+
+                      <span className="text-right text-gray-700">
+                        {lunchRotation[i] && `🍽 ${lunchRotation[i].name}`}
+                        {lunchRotation[i] && dinnerRotation[i] && "  ·  "}
+                        {dinnerRotation[i] && `🌙 ${dinnerRotation[i].name}`}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </>
+          )}
+
           <p className="mb-2 text-xs text-gray-400">
             Rice every day + the average price of your selected items
             (rotated/shuffled daily), over 30 days.
@@ -526,18 +565,6 @@ const MealPlan = () => {
               ৳{estimatedTotalCost.toFixed(0)}
             </span>
           </div>
-
-          {minBudget > 0 && (
-            <p
-              className={`mt-4 text-sm font-medium ${
-                isOverBudget ? "text-red-500" : "text-green-600"
-              }`}
-            >
-              {isOverBudget
-                ? "⚠️ This exceeds your monthly budget — add more affordable items to lower the daily average, or remove pricier ones."
-                : "✅ Fits within your monthly budget."}
-            </p>
-          )}
 
           <button
             onClick={handleConfirmPlan}
