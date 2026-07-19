@@ -240,7 +240,7 @@ const MealPlan = () => {
     try {
       setSaving(true);
 
-      await addDoc(collection(db, "mealPlans"), {
+      const planRef = await addDoc(collection(db, "mealPlans"), {
         userId: auth.currentUser.uid,
         userName: user?.fullName || "",
         email: user?.email || "",
@@ -269,7 +269,7 @@ const MealPlan = () => {
 
       dispatch(resetPlan());
 
-      navigate("/my-orders");
+      navigate(`/meal-plan-confirmation/${planRef.id}`);
     } catch (error) {
       console.log(error);
       toast.error("Failed to save meal plan.");

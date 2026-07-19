@@ -6,11 +6,15 @@ import {
   query,
   where,
   orderBy,
+  doc,
+  updateDoc,
 } from "firebase/firestore";
 
 import { db } from "../firebase/firebase";
 
 import { useSelector } from "react-redux";
+
+import { toast } from "react-toastify";
 
 import OrderCard from "../components/OrderCard";
 
@@ -28,6 +32,25 @@ const MyOrders = () => {
       ...prev,
       [planId]: !prev[planId],
     }));
+  };
+
+  const handleCancelPlan = async (planId) => {
+    const confirmCancel = window.confirm(
+      "Are you sure you want to cancel this meal plan?"
+    );
+
+    if (!confirmCancel) return;
+
+    try {
+      await updateDoc(doc(db, "mealPlans", planId), {
+        status: "Cancelled",
+      });
+
+      toast.success("Meal Plan Cancelled Successfully!");
+    } catch (error) {
+      console.error(error);
+      toast.error("Failed To Cancel Meal Plan");
+    }
   };
 
   // Food Orders
@@ -146,7 +169,13 @@ const MyOrders = () => {
                     </p>
                   </div>
 
-                  <span className="rounded-full bg-orange-100 px-4 py-1 text-sm font-semibold text-orange-700">
+                  <span
+                    className={`rounded-full px-4 py-1 text-sm font-semibold ${
+                      plan.status === "Cancelled"
+                        ? "bg-red-100 text-red-700"
+                        : "bg-orange-100 text-orange-700"
+                    }`}
+                  >
                     {plan.status}
                   </span>
 
@@ -227,6 +256,15 @@ const MyOrders = () => {
                   </span>
 
                 </div>
+
+                {plan.status === "Active" && (
+                  <button
+                    onClick={() => handleCancelPlan(plan.id)}
+                    className="mt-5 w-full rounded-xl bg-red-500 py-2.5 text-sm font-semibold text-white transition hover:bg-red-600"
+                  >
+                    Cancel Plan
+                  </button>
+                )}
 
               </div>
 

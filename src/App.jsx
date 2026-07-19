@@ -28,12 +28,14 @@ import Meals from "./pages/Meals";
 import MealDetails from "./pages/MealDetails";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
+import OrderConfirmation from "./pages/OrderConfirmation";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
 import Profile from "./pages/Profile";
 import MyOrders from "./pages/MyOrders";
 import MealPlan from "./pages/MealPlan";
+import MealPlanConfirmation from "./pages/MealPlanConfirmation";
 import NotFound from "./pages/NotFound";
 
 function App() {
@@ -62,7 +64,20 @@ function App() {
     })
   );
 } else {
-  dispatch(logout());
+  // Firestore profile doc not found yet — this can happen right
+  // after signup if this listener fires before the profile write
+  // finishes. Don't force a logout here; fall back to the basic
+  // info Firebase Auth already gives us so a fresh signup doesn't
+  // get bounced back out.
+  dispatch(
+    login({
+      uid: currentUser.uid,
+      fullName: currentUser.displayName || "",
+      username: currentUser.displayName || "",
+      email: currentUser.email || "",
+      photoURL: currentUser.photoURL || "",
+    })
+  );
 }
           } catch (error) {
             console.log(error);
@@ -111,10 +126,28 @@ function App() {
           />
 
           <Route
+            path="meal-plan-confirmation/:planId"
+            element={
+              <ProtectedRoute>
+                <MealPlanConfirmation />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
             path="checkout"
             element={
               <ProtectedRoute>
                 <Checkout />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="order-confirmation/:orderId"
+            element={
+              <ProtectedRoute>
+                <OrderConfirmation />
               </ProtectedRoute>
             }
           />

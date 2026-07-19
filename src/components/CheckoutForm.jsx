@@ -70,7 +70,7 @@ const CheckoutForm = () => {
     try {
       setLoading(true);
 
-      await addDoc(collection(db, "orders"), {
+      const orderRef = await addDoc(collection(db, "orders"), {
         userId: auth.currentUser.uid,
 
         userName: formData.fullName,
@@ -100,7 +100,7 @@ const CheckoutForm = () => {
 
       toast.success("Order Placed Successfully!");
 
-      navigate("/my-orders");
+      navigate(`/order-confirmation/${orderRef.id}`);
 
     } catch (error) {
       console.log(error);

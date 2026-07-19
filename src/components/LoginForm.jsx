@@ -43,6 +43,8 @@ const LoginForm = () => {
   const [password, setPassword] =
     useState("");
 
+  const [showPassword, setShowPassword] = useState(false);
+
   const [loading, setLoading] =
     useState(false);
 
@@ -81,6 +83,10 @@ const LoginForm = () => {
         await getDoc(docRef);
 
       if (!docSnap.exists()) {
+        console.error(
+          "Login succeeded but no Firestore profile found for uid:",
+          firebaseUser.uid
+        );
         toast.error("User data not found.");
         return;
       }
@@ -101,6 +107,8 @@ const LoginForm = () => {
 
       navigate(redirectTo, { state: location.state });
     } catch (error) {
+      console.error("Email login error:", error.code, error.message);
+
       if (
         error.code ===
         "auth/invalid-credential"
@@ -223,15 +231,27 @@ const LoginForm = () => {
           className="w-full rounded-xl border p-4 outline-none focus:border-orange-500"
         />
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) =>
-            setPassword(e.target.value)
-          }
-          className="w-full rounded-xl border p-4 outline-none focus:border-orange-500"
-        />
+        <div className="relative">
+
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            value={password}
+            onChange={(e) =>
+              setPassword(e.target.value)
+            }
+            className="w-full rounded-xl border p-4 pr-20 outline-none focus:border-orange-500"
+          />
+
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-semibold text-orange-500"
+          >
+            {showPassword ? "Hide" : "Show"}
+          </button>
+
+        </div>
 
         <div className="flex justify-end">
 
